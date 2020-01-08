@@ -30,7 +30,7 @@ export const WeatherStoreBaseStore = t
     updateCurrentLocation: flow(function* updateCurrentLocation(
       currentLocation
     ) {
-      const locationById = yield getLocationById(currentLocation.key)
+      const locationById = yield getLocationById(currentLocation?.key)
       const locationForcastById = yield getLocationForcastById(currentLocation.key, self.isMetric)
 
       if (
@@ -57,9 +57,14 @@ export const WeatherStoreBaseStore = t
     search: flow(function* search(lookup) {
       self.lookupString = lookup
       const location = yield getLocationByQuery(lookup)
+      
+      let unique = location.reduce((unique, item) => {
+        return unique.some(e => e.LocalizedName === item.LocalizedName) ? unique : [...unique, item]
+      },[])
+
       if (!self.isOffline) {
-        if (responseCheck(location)) {
-          return location
+        if (responseCheck(unique)) {
+          return unique
         } else {
           self.isError = true
           router.setView(views.error)

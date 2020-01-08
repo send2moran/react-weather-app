@@ -69,7 +69,9 @@ function SearchBox({WeatherStore}) {
           setOpen(false)
         }}
         onChange={(e, v) => {
-          WeatherStore.updateCurrentLocation(v)
+          if (v) {
+            WeatherStore.updateCurrentLocation(v)
+          }
         }}
         getOptionSelected={(option, value) => option.name === value.name}
         getOptionLabel={option => option.name}
