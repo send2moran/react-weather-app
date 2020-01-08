@@ -3,12 +3,12 @@ import ReactDOM from "react-dom"
 import {Provider} from "mobx-react"
 import {StateRouter} from "mobx-state-tree-router"
 
-import MuiThemeProviderWrap from "../components/MuiThemeProviderWrap"
-import {WeatherStoreBaseStore} from "../models/WeatherStore"
-import LocalDataStore from "../models/LocalDataStab"
-import {router} from "../models/RouteStore"
+import MuiThemeProviderWrap from "./components/MuiThemeProviderWrap"
+import {WeatherStoreBaseStore} from "./models/WeatherStore"
+import LocalDataStore from "./models/LocalDataStab"
+import {router} from "./models/RouteStore"
 import {CssBaseline} from "@material-ui/core"
-import Header from "../components/Header"
+import Header from "./components/Header"
 
 const App = () => {
   const WeatherStore = WeatherStoreBaseStore.create(
