@@ -57,13 +57,11 @@ export const WeatherStoreBaseStore = t
     search: flow(function* search(lookup) {
       self.lookupString = lookup
       const location = yield getLocationByQuery(lookup)
-      
-      let unique = location.reduce((unique, item) => {
-        return unique.some(e => e.LocalizedName === item.LocalizedName) ? unique : [...unique, item]
-      },[])
-
       if (!self.isOffline) {
-        if (responseCheck(unique)) {
+        if (responseCheck(location)) {
+          let unique = location.reduce((unique, item) => {
+            return unique.some(e => e.LocalizedName === item.LocalizedName) ? unique : [...unique, item]
+          },[])
           return unique
         } else {
           self.isError = true
