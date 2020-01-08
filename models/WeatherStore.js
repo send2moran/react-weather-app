@@ -31,10 +31,8 @@ export const WeatherStoreBaseStore = t
       currentLocation
     ) {
       const locationById = yield getLocationById(currentLocation.key)
-      const locationForcastById = yield getLocationForcastById(
-        currentLocation.key,
-        self.isMetric
-      )
+      const locationForcastById = yield getLocationForcastById(currentLocation.key, self.isMetric)
+
       if (
         !self.isOffline &&
         (!responseCheck(locationById) || !responseCheck(locationForcastById) || self.isError)
@@ -78,8 +76,14 @@ export const WeatherStoreBaseStore = t
       })
     },
     afterCreate: async () => {
-      const geoPosition = await getMyLocation()
-      if (typeof geoPosition !== "object") {
+      let geoPosition = null;
+      try {
+         geoPosition = await getMyLocation()
+      }
+      catch (e) {
+
+      }
+      if (geoPosition === null) {
         await self.updateCurrentLocation({name: "Tel Aviv", key: "215854"})
       } else {
         const position = await getLocationByGeoPosition(

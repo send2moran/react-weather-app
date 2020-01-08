@@ -49,6 +49,13 @@ const Header = inject("WeatherStore")(
         [theme.breakpoints.up("md")]: {
           display: "none"
         }
+      },
+      mobileButton: {
+        margin: '0px',
+        padding: 0,
+        width: 0,
+        border: "0px solid",
+        minWidth: '50px'
       }
     }))
 
@@ -77,14 +84,14 @@ const Header = inject("WeatherStore")(
             <Grid container alignItems="center" className={classes.root}>
               <Button
                 color="inherit"
-                className={classes.button}
+                className={classes.mobileButton}
                 onClick={() => setView(views.search)}>
                 <HomeIcon />
               </Button>
               <Divider orientation="vertical" />
               <Button
                 color="inherit"
-                className={classes.button}
+                className={classes.mobileButton}
                 onClick={() => setView(views.favorites)}>
                 <FavoriteIcon />
               </Button>
@@ -106,9 +113,8 @@ const Header = inject("WeatherStore")(
             <Switch
               onChange={toggleChecked}
               defaultChecked
-              value="checkedF"
               color="default"
-              inputProps={{"aria-label": "checkbox with default color"}}/>
+              inputProps={{"aria-label": "Toggle Temp c/f"}}/>
             <span>C</span>
           </Box>
 
