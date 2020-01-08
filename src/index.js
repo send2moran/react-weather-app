@@ -7,7 +7,6 @@ import MuiThemeProviderWrap from "../components/MuiThemeProviderWrap"
 import {WeatherStoreBaseStore} from "../models/WeatherStore"
 import LocalDataStore from "../models/LocalDataStab"
 import {router} from "../models/RouteStore"
-
 import {CssBaseline} from "@material-ui/core"
 import Header from "../components/Header"
 

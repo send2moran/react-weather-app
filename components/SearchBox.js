@@ -34,7 +34,7 @@ function SearchBox({WeatherStore}) {
         return
       }
       const response = await WeatherStore.search(debouncedSearchTerm)
-      if (active) {
+      if (active && response) {
         setOptions(
           Object.keys(response).map(item => {
             return {

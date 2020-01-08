@@ -200,7 +200,7 @@ export const WeatherWrap = inject("WeatherStore")(
         <Grid item xs={12}>
           <If condition={WeatherStore.isOffline}>
             <Then>
-              <div className={classes.errorText}>Offline Mode Active</div>
+              <div className={classes.errorText}>Offline Mode Active <br/> only "Tel Aviv" available for serach</div>
             </Then>
             <Else />
           </If>

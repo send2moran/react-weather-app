@@ -6,7 +6,6 @@ import {
   AppBar,
   Typography,
   Tooltip,
-  Link,
   Button,
   Switch,
   Box,
@@ -57,6 +56,10 @@ const Header = inject("WeatherStore")(
       WeatherStore.toggleMetric()
     }
 
+    const setView = (view) => {
+      router.setView(view)
+    }
+
     const handleTogglePaletteType = () => {
       theme.palette.type = theme.palette.type === "dark" ? "light" : "dark"
       WeatherStore.toggleTheme(theme.palette.type)
@@ -72,21 +75,19 @@ const Header = inject("WeatherStore")(
 
           <div className={classes.sectionMobile}>
             <Grid container alignItems="center" className={classes.root}>
-              <Link
-                href="#"
+              <Button
                 color="inherit"
                 className={classes.button}
-                onClick={() => router.setView(views.search)}>
+                onClick={() => setView(views.search)}>
                 <HomeIcon />
-              </Link>
+              </Button>
               <Divider orientation="vertical" />
-              <Link
-                href="#"
+              <Button
                 color="inherit"
                 className={classes.button}
-                onClick={() => router.setView(views.favorites)}>
+                onClick={() => setView(views.favorites)}>
                 <FavoriteIcon />
-              </Link>
+              </Button>
             </Grid>
           </div>
 
@@ -95,10 +96,8 @@ const Header = inject("WeatherStore")(
               variant="contained"
               color="primary"
               aria-label="contained primary button group">
-              <Button onClick={() => router.setView(views.search)}>Home</Button>
-              <Button onClick={() => router.setView(views.favorites)}>
-                Favorites
-              </Button>
+              <Button onClick={() => setView(views.search)}>Home</Button>
+              <Button onClick={() => setView(views.favorites)}>Favorites</Button>
             </ButtonGroup>
           </div>
 

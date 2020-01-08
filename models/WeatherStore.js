@@ -11,7 +11,7 @@ import {
 } from "../Services/Weather"
 
 const responseCheck = res => {
-  return res === "Failed to fetch" || res.code
+  return res !== "Failed to fetch" && res.code !== "undefined"
 }
 
 export const WeatherStoreBaseStore = t
@@ -37,23 +37,16 @@ export const WeatherStoreBaseStore = t
       )
       if (
         !self.isOffline &&
-        (responseCheck(locationById) ||
-          responseCheck(locationForcastById) ||
-          self.isError)
+        (!responseCheck(locationById) || !responseCheck(locationForcastById) || self.isError)
       ) {
-        router.setView(views.error)
         self.isError = true
+        router.setView(views.error)
       } else {
-        const locationById = getEnv(self).localData.getLocationById()
-        const locationForcastByIdLocal = getEnv(
-          self
-        ).localData.getLocationForcastById()
-        const forcast = (self.isOffline
-          ? locationForcastByIdLocal
-          : locationForcastById
-        ).DailyForecasts.map(f => f)
+        const locationByIdLocal = getEnv(self).localData.getLocationById()
+        const locationForcastByIdLocal = getEnv(self).localData.getLocationForcastById()
+        const forcast = (self.isOffline ? locationForcastByIdLocal : locationForcastById).DailyForecasts.map(f => f)
         self.currentLocation = WeatherLocationStore.create(
-          Object.assign(...locationById, {
+          Object.assign(...(self.isOffline ? locationByIdLocal : locationById), {
             id: currentLocation.key,
             name: currentLocation.name,
             forcast: [...forcast]
@@ -66,10 +59,13 @@ export const WeatherStoreBaseStore = t
     search: flow(function* search(lookup) {
       self.lookupString = lookup
       const location = yield getLocationByQuery(lookup)
-      if (!self.isOffline && responseCheck(location)) {
-        self.isError = true
-        router.setView(views.error)
-        return location
+      if (!self.isOffline) {
+        if (responseCheck(location)) {
+          return location
+        } else {
+          self.isError = true
+          router.setView(views.error)
+        }
       } else {
         return getEnv(self).localData.getLocationByQuery(lookup)
       }
